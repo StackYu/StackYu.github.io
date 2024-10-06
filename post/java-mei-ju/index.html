@@ -1,0 +1,301 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Java枚举 | StackYu</title>
+
+<link rel="shortcut icon" href="https://stackyu.github.io/favicon.ico?v=1728228395256">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackyu.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages//dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            StackYu
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1728228395256"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Java枚举
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2024-10-06 ·
+                    </time>
+                    
+                        <a href="https://stackyu.github.io/tag/cMhvc0ocP/" class="post-tags">
+                            # Java
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h1 id="1-枚举">1. 枚举</h1>
+<p>枚举是一种特殊的数据类型，他是一组预定义的常量，每个常量包括数据和名称。</p>
+<blockquote>
+<p>枚举无法继承其他类，默认继承Enum类，可以实现其它接口。</p>
+<p>枚举常量命名全大写，多单词下划线分割。</p>
+</blockquote>
+<h1 id="2-创建枚举">2. 创建枚举</h1>
+<pre><code class="language-java">public enum Week {
+    Monday(&quot;星期一&quot;, &quot;Mon&quot;, 1),
+    Tuesday(&quot;星期二&quot;, &quot;Tues&quot;, 2),
+    Wednesday(&quot;星期三&quot;, &quot;Wed&quot;, 3),
+    Thursday(&quot;星期四&quot;, &quot;Thur&quot;, 4),
+    Friday(&quot;星期五&quot;, &quot;Fri&quot;, 5),
+    Saturday(&quot;星期六&quot;, &quot;Sat&quot;, 6),
+    Sunday(&quot;星期日&quot;, &quot;Sun&quot;, 7);
+
+    // 枚举属性
+    private String value;
+    private String code;
+    private int num;
+
+    // 枚举构造，必须私有
+    private Week(String value, String code, int num) {
+        this.value = value;
+        this.code = code;
+        this.num = num;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    // 枚举方法
+    public boolean isWeekend() {
+        return this == Saturday || this == Sunday;
+    }
+}
+</code></pre>
+<pre><code class="language-java">// 需要实现接口
+interface Printable {
+    void print();
+}
+
+// 实现接口
+public enum Week implements Printable {
+    Monday(&quot;星期一&quot;, &quot;Mon&quot;, 1), Tuesday(&quot;星期二&quot;, &quot;Tues&quot;, 2), Wednesday(&quot;星期三&quot;, &quot;Wed&quot;, 3), Thursday(&quot;星期四&quot;, &quot;Thur&quot;, 4), Friday(&quot;星期五&quot;, &quot;Fri&quot;, 5), Saturday(&quot;星期六&quot;, &quot;Sat&quot;, 6), Sunday(&quot;星期日&quot;, &quot;Sun&quot;, 7);
+
+    // 枚举属性
+    private String value;
+    private String code;
+    private int num;
+
+    // 枚举构造，必须私有
+    private Week(String value, String code, int num) {
+        this.value = value;
+        this.code = code;
+        this.num = num;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    // 枚举方法
+    public boolean isWeekend() {
+        return this == Saturday || this == Sunday;
+    }
+
+    @Override
+    public void print() {
+        System.out.println(&quot;Today is &quot; + this.value);
+    }
+}
+</code></pre>
+<h1 id="3-枚举使用">3. 枚举使用</h1>
+<pre><code class="language-java">public static void main(String[] args) {
+    // 访问枚举常量
+    Week monday = Week.Monday;
+    // 访问枚举常量属性
+    System.out.println(monday.getValue());
+    System.out.println(Week.Monday.getValue());
+    // 访问枚举方法
+    System.out.println(monday.isWeekend());
+    System.out.println(Week.Monday.isWeekend());
+    Week.Sunday.print();
+}
+</code></pre>
+<h1 id="4-枚举默认方法">4. 枚举默认方法</h1>
+<p><code>values()</code>:获得所有枚举常量数组。</p>
+<pre><code class="language-java">public static void main(String[] args) {
+    Week[] values = Week.values();
+    for (Week value : values) {
+        System.out.println(value);
+    }
+}
+
+// Monday
+// Tuesday
+// Wednesday
+// Thursday
+// Friday
+// Saturday
+// Sunday
+</code></pre>
+<p><code>valueOf(String)</code>:通过字符串，获得对应枚举常量。</p>
+<pre><code class="language-java">public static void main(String[] args) {
+    Week sunday = Week.valueOf(&quot;Sunday&quot;);
+    System.out.println(sunday.getValue());
+}
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://stackyu.github.io/post/java-yi-chang/" class="post-title gt-a-link">
+                    Java异常
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">StackYu的个人博客</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/stackyu" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        
+    </div>
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://stackyu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

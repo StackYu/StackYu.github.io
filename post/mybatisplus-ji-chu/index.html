@@ -1,0 +1,1026 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>MybatisPlus基础 | StackYu</title>
+
+<link rel="shortcut icon" href="https://stackyu.github.io/favicon.ico?v=1728228395256">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackyu.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages//dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            StackYu
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1728228395256"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    MybatisPlus基础
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-01-25 ·
+                    </time>
+                    
+                        <a href="https://stackyu.github.io/tag/F6q1ZQKxw/" class="post-tags">
+                            # MybtisPlus
+                        </a>
+                    
+                        <a href="https://stackyu.github.io/tag/rYiejsQiN/" class="post-tags">
+                            # Mybatis
+                        </a>
+                    
+                        <a href="https://stackyu.github.io/tag/cMhvc0ocP/" class="post-tags">
+                            # Java
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h1 id="1-入门案例">1. 入门案例</h1>
+<blockquote>
+<p>MybatisPlus是对Mybatis进行简化，通过简单的配置就能进行简单CRUD。</p>
+</blockquote>
+<p>1.添加依赖</p>
+<pre><code class="language-xml">
+&lt;dependency&gt;
+    &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;3.4.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ol start="2">
+<li>Mapper接口继承BaseMapper</li>
+</ol>
+<pre><code class="language-java">// 需要添加注解被Spring容器管理，不添加此注解就需要在启动类上添加@MapperScan(&quot;xxx.x..&quot;)
+@Mapper
+public interface UserDao extends BaseMapper&lt;User&gt; {
+
+    @Select(&quot;select * from user&quot;)
+    List&lt;User&gt; selectAll();
+}
+</code></pre>
+<blockquote>
+<p>如果未发现表，那就需要在实体类上添加@TableName注解</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+    @JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;)
+    private Date birthday;
+
+    // get set toString
+}
+</code></pre>
+<p>3.测试</p>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void contextLoads() {
+        System.out.println(userDao.selectAll());
+        System.out.println(userDao.selectById(1617790416520863746L));
+    }
+}
+</code></pre>
+<h2 id="11-简单crud">1.1 简单CRUD</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void contextSave() {
+        User user = new User();
+        user.setName(&quot;yh&quot;);
+        user.setAge(18);
+        user.setEmail(&quot;yh@email.com&quot;);
+        user.setBirthday(new Date());
+        System.out.println(userDao.insert(user));
+        System.out.println(user);
+    }
+
+    @Test
+    void contextDelete() {
+        System.out.println(userDao.deleteById(1617790566173523969L));
+    }
+
+    @Test
+    void contextUpdate() {
+        User user = new User();
+        user.setId(1617790416520863746L);
+        user.setName(&quot;yh&quot;);
+        user.setAge(3);
+        user.setEmail(&quot;yh@email.com&quot;);
+        System.out.println(userDao.updateById(user));
+        System.out.println(user);
+    }
+
+    @Test
+    void contextSelect() {
+        System.out.println(userDao.selectAll());
+        System.out.println(userDao.selectById(1617790416520863746L));
+    }
+
+}
+</code></pre>
+<h1 id="2-分页">2. 分页</h1>
+<ol>
+<li>设置拦截器</li>
+</ol>
+<pre><code class="language-java">
+@Configuration
+public class MybatisPlusConfig {
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        //1 创建MybatisPlusInterceptor拦截器对象
+        MybatisPlusInterceptor mpInterceptor = new MybatisPlusInterceptor();
+        //2 添加分页拦截器
+        mpInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        return mpInterceptor;
+    }
+}
+</code></pre>
+<ol start="2">
+<li>分页查询</li>
+</ol>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    //分页查询
+    @Test
+    void testSelectPage() {
+        //1 创建IPage分页对象,设置分页参数,1为当前页码，3为每页显示的记录数
+        IPage&lt;User&gt; page = new Page&lt;&gt;(1, 3);
+        //2 执行分页查询
+        userDao.selectPage(page, null);
+        //3 获取分页结果
+        System.out.println(&quot;当前页码值：&quot; + page.getCurrent());
+        System.out.println(&quot;每页显示数：&quot; + page.getSize());
+        System.out.println(&quot;一共多少页：&quot; + page.getPages());
+        System.out.println(&quot;一共多少条数据：&quot; + page.getTotal());
+        System.out.println(&quot;数据：&quot; + page.getRecords());
+    }
+}
+</code></pre>
+<h1 id="3-dql操作">3. DQL操作</h1>
+<h2 id="31-根据单条件查询">3.1 根据单条件查询</h2>
+<blockquote>
+<p>使用Wrapper实现类QueryWrapper和LambdaQueryWrapper进行查询。<code>lt()</code>方法类似<code>&lt;</code></p>
+</blockquote>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testSelect() {
+        QueryWrapper&lt;User&gt; wrapper = new QueryWrapper&lt;&gt;();
+        wrapper.lt(&quot;age&quot;, 18);
+        List&lt;User&gt; users = userDao.selectList(wrapper);
+        System.out.println(&quot;数据：&quot; + users);
+    }
+
+    @Test
+    void testSelectLambda() {
+        QueryWrapper&lt;User&gt; wrapper = new QueryWrapper&lt;&gt;();
+        wrapper.lambda().lt(User::getAge, 18);
+        List&lt;User&gt; users = userDao.selectList(wrapper);
+        System.out.println(&quot;数据：&quot; + users);
+    }
+
+    @Test
+    void testSelectLambda1() {
+        LambdaQueryWrapper&lt;User&gt; wrapper = new LambdaQueryWrapper&lt;&gt;();
+        wrapper.lt(User::getAge, 18);
+        List&lt;User&gt; users = userDao.selectList(wrapper);
+        System.out.println(&quot;数据：&quot; + users);
+    }
+}
+</code></pre>
+<h2 id="32-多条件查询">3.2 多条件查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    // 多条件
+    @Test
+    void testSelectLambda2() {
+        LambdaQueryWrapper&lt;User&gt; wrapper = new LambdaQueryWrapper&lt;&gt;();
+        wrapper.lt(User::getAge, 18);
+        wrapper.gt(User::getAge, 1);
+
+        // 支持链式编程
+        // wrapper.lt(User::getAge, 18).gt(User::getAge, 1);
+        List&lt;User&gt; users = userDao.selectList(wrapper);
+        System.out.println(&quot;数据：&quot; + users);
+    }
+
+    // 多条件
+    @Test
+    void testSelectLambda3() {
+        LambdaQueryWrapper&lt;User&gt; wrapper = new LambdaQueryWrapper&lt;&gt;();
+        // 支持链式编程，默认是and，可以使用or()
+        wrapper.lt(User::getAge, 18).or().gt(User::getAge, 1);
+        List&lt;User&gt; users = userDao.selectList(wrapper);
+        System.out.println(&quot;数据：&quot; + users);
+    }
+}
+</code></pre>
+<blockquote>
+<p>多条件之间默认是and，也可以通过<code>or()</code>方法实现or。</p>
+</blockquote>
+<h2 id="33-null判断">3.3 null判断</h2>
+<blockquote>
+<p>在多个查询条件中可能存在没有输入的条件，这时就需要大量的<code>if</code>判断，MP对此进行了简化。</p>
+</blockquote>
+<blockquote>
+<p>接收页面条件时不能再用实体类，例如查询年龄范围肯定会传入两个值，这时实体类就没法存储。这时就需要创建vo</p>
+</blockquote>
+<pre><code class="language-java">
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserQuery extends User {
+
+    private Integer age2;
+}
+</code></pre>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    // 多条件
+    @Test
+    void testSelect1() {
+        //模拟页面传递过来的查询数据
+        UserQuery uq = new UserQuery();
+        uq.setAge(10);
+        uq.setAge2(30);
+
+        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();
+        // 只有当第一个条件为true后，查询才会成立进行查询
+        lqw.lt(null != uq.getAge2(), User::getAge, uq.getAge2());
+        lqw.gt(null != uq.getAge(), User::getAge, uq.getAge());
+        List&lt;User&gt; userList = userDao.selectList(lqw);
+        System.out.println(userList);
+    }
+}
+</code></pre>
+<h2 id="34-查询投影">3.4 查询投影</h2>
+<blockquote>
+<p>MP默认查询表所有，如果只查询想要列可以通过方法来控制的。</p>
+</blockquote>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();
+        lqw.select(User::getId, User::getName, User::getAge);
+        List&lt;User&gt; userList = userDao.selectList(lqw);
+        System.out.println(userList);
+    }
+
+    @Test
+    void testGetAll() {
+        QueryWrapper&lt;User&gt; lqw = new QueryWrapper&lt;User&gt;();
+        // QueryWrapper需要手动编写列名
+        lqw.select(&quot;id&quot;, &quot;name&quot;, &quot;age&quot;, &quot;tel&quot;);
+        List&lt;User&gt; userList = userDao.selectList(lqw);
+        System.out.println(userList);
+    }
+}
+</code></pre>
+<h2 id="35-聚合查询">3.5 聚合查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        QueryWrapper&lt;User&gt; lqw = new QueryWrapper&lt;User&gt;();
+        // lqw.select(&quot;count(*) as count&quot;); 
+        // SELECT count(*) as count FROM user
+
+        // lqw.select(&quot;max(age) as maxAge&quot;); 
+        // SELECT max(age) as maxAge FROM user 
+
+        // lqw.select(&quot;min(age) as minAge&quot;);
+        // SELECT min(age) as minAge FROM user
+
+        // lqw.select(&quot;sum(age) as sumAge&quot;); 
+        // SELECT sum(age) as sumAge FROM user
+
+        lqw.select(&quot;avg(age) as avgAge&quot;);
+        // SELECT avg(age) as avgAge FROM user 
+        List&lt;Map&lt;String, Object&gt;&gt; userList = userDao.selectMaps(lqw);
+        System.out.println(userList);
+    }
+}
+</code></pre>
+<h2 id="36-分组查询">3.6 分组查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        QueryWrapper&lt;User&gt; lqw = new QueryWrapper&lt;User&gt;();
+        lqw.select(&quot;count(*) as count,tel&quot;);
+        lqw.groupBy(&quot;tel&quot;);
+        List&lt;Map&lt;String, Object&gt;&gt; list = userDao.selectMaps(lqw);
+        System.out.println(list);
+    }
+}
+</code></pre>
+<h2 id="37-等值查询">3.7 等值查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();
+        lqw.eq(User::getName, &quot;Jerry&quot;).eq(User::getPassword, &quot;jerry&quot;);
+        User loginUser = userDao.selectOne(lqw);
+        System.out.println(loginUser);
+    }
+}
+</code></pre>
+<blockquote>
+<ul>
+<li>selectList：查询结果为多个或者单个</li>
+<li>selectOne:查询结果为单个</li>
+</ul>
+</blockquote>
+<h2 id="38-范围查询">3.8 范围查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();
+        lqw.between(User::getAge, 10, 30);
+        // SELECT id,name,password,age,tel FROM user WHERE (age BETWEEN ? AND ?) 
+        List&lt;User&gt; userList = userDao.selectList(lqw);
+        System.out.println(userList);
+    }
+}
+</code></pre>
+<blockquote>
+<ul>
+<li>gt():大于(&gt;)</li>
+<li>ge():大于等于(&gt;=)</li>
+<li>lt():小于(&lt;)</li>
+<li>lte():小于等于(&lt;=)</li>
+<li>between():between ? and ?</li>
+</ul>
+</blockquote>
+<h2 id="39-模糊查询">3.9 模糊查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        LambdaQueryWrapper&lt;User&gt; lqw = new LambdaQueryWrapper&lt;User&gt;();
+        lqw.likeLeft(User::getName, &quot;J&quot;);
+        //SELECT id,name,password,age,tel FROM user WHERE (name LIKE ?) 
+        List&lt;User&gt; userList = userDao.selectList(lqw);
+        System.out.println(userList);
+    }
+}
+</code></pre>
+<h2 id="310-排序查询">3.10 排序查询</h2>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testGetAll() {
+        LambdaQueryWrapper&lt;User&gt; lwq = new LambdaQueryWrapper&lt;&gt;();
+        /*
+         * condition ：条件，返回boolean， 当condition为true，进行排序，如果为false，则不排序
+         * isAsc:是否为升序，true为升序，false为降序
+         * columns：需要操作的列
+         */
+        lwq.orderBy(true, false, User::getId);
+        userDao.selectList(lw);
+    }
+}
+</code></pre>
+<ul>
+<li>orderBy排序
+<ul>
+<li>condition:条件，true则添加排序，false则不添加排序</li>
+<li>isAsc:是否为升序，true升序，false降序</li>
+<li>columns:排序字段，可以有多个</li>
+</ul>
+</li>
+<li>orderByAsc/Desc(单个column):按照指定字段进行升序/降序</li>
+<li>orderByAsc/Desc(多个column):按照多个字段进行升序/降序</li>
+<li>orderByAsc/Desc
+<ul>
+<li>condition:条件，true添加排序，false不添加排序</li>
+<li>多个columns：按照多个字段进行排序</li>
+</ul>
+</li>
+</ul>
+<h1 id="4-映射兼容问题">4. 映射兼容问题</h1>
+<h2 id="41-列名与属性名可不同">4.1 列名与属性名可不同</h2>
+<blockquote>
+<p>使用<code>@TableField</code>注解表明与哪个表列名映射</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    private Long id;
+
+    @TableField(&quot;user_name&quot;)
+    private String name;
+
+    private Integer age;
+
+    private String email;
+
+    private Date birthday;
+
+}
+</code></pre>
+<h2 id="42-表中未定义属性">4.2 表中未定义属性</h2>
+<blockquote>
+<p>有时并不是所有属性都是在表中定义的，例如多表查询时，实体类中一般定义的不是对象Id而是对象，这时就可以通过@TableField注解的exist属性完成。</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+
+    @TableField(exist = false)
+    private Role role;
+}
+</code></pre>
+<h2 id="43-限制列表查询权限">4.3 限制列表查询权限</h2>
+<blockquote>
+<p>铭感列一般是不需要查询返回的，这时就需要限制列表查询。可以通过@TableField注解的select属性完成。</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    private Long id;
+    private String name;
+    @TableField(select = false)
+    private String password;
+    private Integer age;
+    private String email;
+    private Date birthday;
+}
+</code></pre>
+<h2 id="44-表名不同步">4.4 表名不同步</h2>
+<pre><code class="language-java">// 显示设置表名
+@TableName(&quot;user&quot;)
+public class User {
+
+    private Long id;
+    private String name;
+    @TableField(select = false)
+    private String password;
+    private Integer age;
+    private String email;
+    private Date birthday;
+}
+</code></pre>
+<h1 id="5-dml">5. DML</h1>
+<h2 id="51-id策略">5.1 Id策略</h2>
+<blockquote>
+<p>针对不同的业务需求，Id的生成策略也是不同的。MP主要提供了以下一些策略。</p>
+</blockquote>
+<ul>
+<li>NONE（默认）: 不设置id生成策略，MP自动生成</li>
+<li>AUTO: 使用数据库自增</li>
+<li>INPUT:用户手工输入id</li>
+<li>ASSIGN_ID:雪花算法生成id(可兼容数值型与字符串型)</li>
+<li>ASSIGN_UUID:以UUID生成算法作为id生成策略</li>
+</ul>
+<h3 id="511-auto">5.1.1 AUTO</h3>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.AUTO)
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+
+}
+</code></pre>
+<h3 id="512-input">5.1.2 INPUT</h3>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.INPUT)
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+
+}
+</code></pre>
+<blockquote>
+<p>需要手动输入Id，如果未设置id将抛出异常。</p>
+</blockquote>
+<h3 id="513-assign_id">5.1.3 ASSIGN_ID</h3>
+<blockquote>
+<p>雪花算法相关查看</p>
+</blockquote>
+<p><a href="../../Distributed/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9B%B8%E5%85%B3%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88.md#11-%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95">雪花算法</a></p>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.ASSIGN_ID)
+    private Long id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+
+}
+</code></pre>
+<h3 id="514-assign_uuid">5.1.4 ASSIGN_UUID</h3>
+<blockquote>
+<p>使用此策略需要将主键类型改为字符串，同样数据库也是，长度不能小于32位。</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.ASSIGN_UUID)
+    private String id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+
+}
+</code></pre>
+<h2 id="52-批量操作">5.2 批量操作</h2>
+<h3 id="521-批量删除">5.2.1 批量删除</h3>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testDelete() {
+        List&lt;Long&gt; list = new ArrayList&lt;&gt;();
+        list.add(1402551342481838081L);
+        list.add(1402553134049501186L);
+        list.add(1402553619611430913L);
+        // 批量删除
+        userDao.deleteBatchIds(list);
+    }
+}
+</code></pre>
+<h3 id="522-批量查询">5.2.2 批量查询</h3>
+<pre><code class="language-java">
+@SpringBootTest
+class ApplicationTests {
+
+    @Autowired
+    UserDao userDao;
+
+    @Test
+    void testDelete() {
+        List&lt;Long&gt; list = new ArrayList&lt;&gt;();
+        list.add(1L);
+        list.add(3L);
+        list.add(4L);
+        // 批量查询
+        userDao.selectBatchIds(list);
+    }
+}
+</code></pre>
+<h2 id="53-逻辑删除">5.3 逻辑删除</h2>
+<blockquote>
+<p>一些数据在删除过程中，并不是真正的直接删除掉，而是通过设置字段的值来标记其处于删除状态。所以删除其实就是修改。</p>
+</blockquote>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.ASSIGN_UUID)
+    private String id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+    @TableLogic(value = &quot;0&quot;, delval = &quot;1&quot;)
+    //value为正常数据的值，delval为删除数据的值
+    private Integer deleted;
+
+}
+</code></pre>
+<blockquote>
+<p>既然是逻辑删除，那查询是否受影响了，显然MP已经帮我们处理了。</p>
+</blockquote>
+<h2 id="54-乐观锁">5.4 乐观锁</h2>
+<blockquote>
+<p>通过添加version字段来实现乐观锁，MP通过<code>@Version</code>注解简化这一操作。</p>
+</blockquote>
+<ol>
+<li>添加注解</li>
+</ol>
+<pre><code class="language-java">
+@TableName(&quot;user&quot;)
+public class User {
+
+    @TableId(value = &quot;id&quot;, type = IdType.ASSIGN_UUID)
+    private String id;
+    private String name;
+    private Integer age;
+    private String email;
+    private Date birthday;
+    @TableLogic(value = &quot;0&quot;, delval = &quot;1&quot;)
+    //value为正常数据的值，delval为删除数据的值
+    private Integer deleted;
+
+    @Version
+    private Integer version;
+
+}
+</code></pre>
+<ol start="2">
+<li>设置拦截器</li>
+</ol>
+<pre><code class="language-java">
+@Configuration
+public class MybatisPlusConfig {
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        // 创建MybatisPlusInterceptor拦截器对象
+        MybatisPlusInterceptor mpInterceptor = new MybatisPlusInterceptor();
+
+        // 添加分页拦截器
+        mpInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+
+        // 添加乐观锁拦截器
+        mpInterceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        return mpInterceptor;
+    }
+
+}
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<blockquote>
+<p>要想实现乐观锁，首先第一步应该是拿到表中的version，然后拿version当条件在将version加1更新回到数据库表中，所以我们在查询的时候，需要对其进行查询</p>
+</blockquote>
+<pre><code class="language-java">
+@SpringBootTest
+class Mybatisplus03DqlApplicationTests {
+    @Autowired
+    private UserDao userDao;
+
+    @Test
+    void
+    testUpdate() {
+        User user = new User();
+        user.setId(3L);
+        user.setName(&quot;Jock666&quot;);
+        user.setVersion(1);
+        userDao.updateById(user);
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="../../img/mp0.png" alt="" loading="lazy"></figure>
+<blockquote>
+<p>从sql语句可以看出，MP会把version+1更新到表中，但是在条件中对比的还是未+1的version。</p>
+<p>所以更新带有乐观锁的数据步骤是先查询再更新，需要带上version属性，不然乐观锁会失效。</p>
+<p>version值不相等，更新返回行数会为0。</p>
+</blockquote>
+<h1 id="6-逆向工程">6. 逆向工程</h1>
+<blockquote>
+<p>依照数据库的字段自动生成实体类和Mapper</p>
+</blockquote>
+<ol>
+<li>依赖</li>
+</ol>
+<blockquote>
+<p>SpringBoot版本使用<code>2.5.1</code>其他版本可能会出现问题。</p>
+</blockquote>
+<pre><code class="language-xml">
+&lt;dependencies&gt;
+    &lt;!--spring webmvc--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--mybatisplus--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-plus-boot-starter&lt;/artifactId&gt;
+        &lt;version&gt;3.4.1&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--druid--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;druid&lt;/artifactId&gt;
+        &lt;version&gt;1.1.16&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--mysql--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--test--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--lombok--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+        &lt;version&gt;1.18.12&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--代码生成器--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.baomidou&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-plus-generator&lt;/artifactId&gt;
+        &lt;version&gt;3.4.1&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!--velocity模板引擎--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.apache.velocity&lt;/groupId&gt;
+        &lt;artifactId&gt;velocity-engine-core&lt;/artifactId&gt;
+        &lt;version&gt;2.3&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<ol start="2">
+<li>编写生成类</li>
+</ol>
+<pre><code class="language-java">public class CodeGenerator {
+    public static void main(String[] args) {
+        //1.获取代码生成器的对象
+        AutoGenerator autoGenerator = new AutoGenerator();
+
+        //设置数据库相关配置
+        DataSourceConfig dataSource = new DataSourceConfig();
+        dataSource.setDriverName(&quot;com.mysql.cj.jdbc.Driver&quot;);
+        dataSource.setUrl(&quot;jdbc:mysql://localhost:33060/BookManager?serverTimezone=UTC&quot;);
+        dataSource.setUsername(&quot;root&quot;);
+        dataSource.setPassword(&quot;root&quot;);
+        autoGenerator.setDataSource(dataSource);
+
+        //设置全局配置
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setOutputDir(System.getProperty(&quot;user.dir&quot;) + &quot;/SpringBoot2/src/main/java&quot;);    //设置代码生成位置
+        globalConfig.setOpen(false);    //设置生成完毕后是否打开生成代码所在的目录
+        globalConfig.setAuthor(&quot;xiaoyu&quot;);    //设置作者
+        globalConfig.setFileOverride(true);     //设置是否覆盖原始生成的文件
+        globalConfig.setMapperName(&quot;%sDao&quot;);    //设置数据层接口名，%s为占位符，指代模块名称
+        globalConfig.setIdType(IdType.ASSIGN_ID);   //设置Id生成策略
+        autoGenerator.setGlobalConfig(globalConfig);
+
+        //设置包名相关配置
+        PackageConfig packageInfo = new PackageConfig();
+        packageInfo.setParent(&quot;com.aaa&quot;);   //设置生成的包名，与代码所在位置不冲突，二者叠加组成完整路径
+        packageInfo.setEntity(&quot;domain&quot;);    //设置实体类包名
+        packageInfo.setMapper(&quot;dao&quot;);   //设置数据层包名
+        autoGenerator.setPackageInfo(packageInfo);
+
+        //策略设置
+        StrategyConfig strategyConfig = new StrategyConfig();
+//        strategyConfig.setInclude(&quot;tbl_user&quot;);  //设置当前参与生成的表名，参数为可变参数
+//        strategyConfig.setTablePrefix(&quot;tbl_&quot;);  //设置数据库表的前缀名称，模块名 = 数据库表名 - 前缀名  例如： User = tbl_user - tbl_
+        strategyConfig.setRestControllerStyle(true);    //设置是否启用Rest风格
+        strategyConfig.setVersionFieldName(&quot;version&quot;);  //设置乐观锁字段名
+        strategyConfig.setLogicDeleteFieldName(&quot;deleted&quot;);  //设置逻辑删除字段名
+        strategyConfig.setEntityLombokModel(true);  //设置是否启用lombok
+        autoGenerator.setStrategy(strategyConfig);
+        //2.执行生成操作
+        autoGenerator.execute();
+    }
+}
+
+</code></pre>
+<blockquote>
+<p>直接运行以上代码即可。</p>
+</blockquote>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://stackyu.github.io/post/springboot-ji-chu/" class="post-title gt-a-link">
+                    SpringBoot基础
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">StackYu的个人博客</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/stackyu" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        
+    </div>
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://stackyu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,908 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>SpringAOP基础知识 | StackYu</title>
+
+<link rel="shortcut icon" href="https://stackyu.github.io/favicon.ico?v=1728228395256">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackyu.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages//dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            StackYu
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1728228395256"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    SpringAOP基础知识
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-01-22 ·
+                    </time>
+                    
+                        <a href="https://stackyu.github.io/tag/E1GSjgTC3/" class="post-tags">
+                            # Spring
+                        </a>
+                    
+                        <a href="https://stackyu.github.io/tag/dyDNJhT9l7/" class="post-tags">
+                            # SpringAOP
+                        </a>
+                    
+                        <a href="https://stackyu.github.io/tag/cMhvc0ocP/" class="post-tags">
+                            # Java
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h1 id="1-aop">1. AOP</h1>
+<blockquote>
+<p>AOP一种编程思想，在不改变源代码前提下对其进行功能增强。</p>
+</blockquote>
+<p>AOP专业术语：</p>
+<ol>
+<li>连接点：待增强方法</li>
+<li>切入点：被增强方法</li>
+<li>通知类：编写增强方法的类</li>
+<li>通知：增强方法</li>
+<li>切面：通知增强连接点的关系描述</li>
+<li>目标类：需要被代理的类</li>
+<li>代理：通过代理目标对象创建的对象</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="../../../img/spring2.png" alt="" loading="lazy"></figure>
+<h1 id="2-入门">2. 入门</h1>
+<p>准备类：</p>
+<pre><code class="language-java">public interface UserDao {
+    void insert();
+
+    void add();
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+    public void insert() {
+        System.out.println(&quot;UserDaoImpl insert run...&quot;);
+    }
+
+    public void add() {
+        System.out.println(&quot;UserDaoImpl add run...&quot;);
+    }
+}
+</code></pre>
+<p>1.添加依赖：SpringAOP是依赖Aspect开源框架，所以需要添加依赖。</p>
+<pre><code class="language-xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+        &lt;version&gt;5.2.10.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+        &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+        &lt;version&gt;1.9.4&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<p>2.编写通知类及通知等：</p>
+<pre><code class="language-java">// 装配组件注解
+@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+
+    // 切入点
+    @Pointcut(&quot;execution(void cn.fishland.dao.UserDao.insert())&quot;)
+    public void pt() {
+    }
+
+    // 切面
+    @Before(&quot;pt()&quot;) // 方法执行前
+    // 通知
+    public void showTime() {
+        System.out.println(System.currentTimeMillis());
+    }
+}
+</code></pre>
+<p>3.主配置类开启AOP：</p>
+<pre><code class="language-java">@Configuration
+// 开启AOP功能
+@EnableAspectJAutoProxy
+@ComponentScan(&quot;cn.fishland&quot;)
+public class AppConfig {
+}
+</code></pre>
+<p>4.测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        UserDao bean = context.getBean(UserDao.class);
+        bean.insert();
+        System.out.println(&quot;=========================&quot;);
+        bean.add();
+    }
+}
+</code></pre>
+<h1 id="3-aop工作流程">3. AOP工作流程</h1>
+<ol>
+<li>容器加载bean和通知类，但是此时被增强类并未创建。</li>
+<li>加载切入点，只加载被应用的切入点。</li>
+<li>为增强类创建代理类，未增强类创建原始类。</li>
+<li>通过容器获得bean</li>
+</ol>
+<h1 id="4-aop详细配置">4. AOP详细配置</h1>
+<h2 id="41-切入点表达式">4.1 切入点表达式</h2>
+<blockquote>
+<p>切入点通常配置的较多，如果单独配置会出现很多，这时就有通配符等解决办法。</p>
+</blockquote>
+<h3 id="411-语法格式">4.1.1 语法格式</h3>
+<p><code>@Pointcut(&quot;动作关键字(访问修饰符 返回值 包名.类/接口名.方法名(参数) 异常名)&quot;));</code></p>
+<ol>
+<li>动作关键字：execution表示执行到切入点</li>
+<li>访问修饰符：一般不写，通常情况下被增强方法修饰符都是public，当然也可以其他</li>
+<li>返回值：不可省略</li>
+<li>包名.类/接口名.方法名(参数)：类的全路径名称加方法和参数</li>
+<li>异常：可省略</li>
+</ol>
+<p>示例：<code>@Pointcut(&quot;execution(void cn.fishland.dao.UserDao.insert())&quot;)</code></p>
+<blockquote>
+<p>关于方法配接口还是实现类，其实是都可以的，但是通常使用的是接口方法路径名，配实现类的话耦合度较高。</p>
+</blockquote>
+<h3 id="412-通配符">4.1.2 通配符</h3>
+<ol>
+<li><code>*</code>：表示任意个符号</li>
+</ol>
+<p>示例：<code>execution（public * cn.fishland.*.UserService.find*(*))</code></p>
+<p>表示返回值任意，cn.fishland包下任意包的UserService接口的以find开头的方法，形参为一个。</p>
+<ol start="2">
+<li><code>..</code>：表示多个连续符号</li>
+</ol>
+<p>示例<code>execution（public User cn..UserService.findById(..))</code></p>
+<p>匹配返回值为User，cn包下任意包下UserService接口的findById方法，参数为任意个。</p>
+<ol start="3">
+<li><code>+</code>：表示匹配子类</li>
+</ol>
+<p>示例：<code>execution(* *..*Service+.*(..))</code></p>
+<p>返回值任意，任意包下以Service结尾的子类的任一方法，参数任意个。</p>
+<p><strong>符号表示单个单词或者标识符，例如cn、fishland、User都是的</strong></p>
+<h3 id="413-配置规范">4.1.3 配置规范</h3>
+<ol>
+<li>切入点类<strong>通常描述接口</strong></li>
+<li>访问修饰符一般省略</li>
+<li>增删改返回值使用精确类型，查询使用通配符*</li>
+<li>包尽量不使用..通配符，可以使用*通配符，尽量精确包名</li>
+<li>类或接口名书写一般采用*加结尾，例如服务层<code>*Service</code></li>
+<li>方法名，动词精确匹配，名称采用匹配</li>
+</ol>
+<h2 id="42-通知类">4.2 通知类</h2>
+<blockquote>
+<p>通知类型处理示例中的前置通知外还有其他四种，后置通知、环绕通知、返回后通知和异常通知。</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="../../../img/spring3.png" alt="" loading="lazy"></figure>
+<p>测试类：</p>
+<pre><code class="language-java">public interface UserDao {
+    void insert();
+
+    void add();
+
+    void select();
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+    public void insert() {
+        System.out.println(&quot;UserDaoImpl insert run...&quot;);
+    }
+
+    public void add() {
+        int x = 1 / 0;
+        System.out.println(&quot;UserDaoImpl add run...&quot;);
+    }
+
+    public void select() {
+        System.out.println(&quot;UserDaoImpl select run...&quot;);
+    }
+}
+</code></pre>
+<p>多种通知类型配置：</p>
+<pre><code class="language-java">@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+
+    // 切入点
+    @Pointcut(&quot;execution(void cn.fishland.dao.UserDao.insert())&quot;)
+    public void ptInsert() {
+    }
+
+    // 切入点
+    @Pointcut(&quot;execution(void cn.fishland.dao.UserDao.add())&quot;)
+    public void ptAdd() {
+    }
+
+    // 切入点
+    @Pointcut(&quot;execution(void cn.fishland.dao.UserDao.select())&quot;)
+    public void ptSelect() {
+    }
+
+    // 前置通知
+    @Before(&quot;ptInsert()&quot;)
+    public void before() {
+        System.out.println(&quot;insert method before...&quot;);
+    }
+
+    // 返回后通知
+    @AfterReturning(&quot;ptInsert()&quot;)
+    public void afterReturning() {
+        System.out.println(&quot;insert method afterReturning...&quot;);
+    }
+
+    // 后置通知
+    @After(&quot;ptInsert()&quot;)
+    public void after() {
+        System.out.println(&quot;insert method after...&quot;);
+    }
+
+    // 异常通知
+    @AfterThrowing(&quot;ptAdd()&quot;)
+    public void afterThrowing() {
+        System.out.println(&quot;add method after...&quot;);
+    }
+
+    // 环绕通知
+    @Around(&quot;ptSelect()&quot;)
+    public Object around(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println(&quot;select method around before...&quot;);
+        Object proceed = pjp.proceed();
+        System.out.println(&quot;select method around after...&quot;);
+        return proceed;
+    }
+}
+</code></pre>
+<p>环绕通知注意：</p>
+<ol>
+<li>环绕通知需要有参数ProceedingJoinPoint用于操作目标类方法</li>
+<li>环绕通知最好有返回值，切入点有参数，环绕通知必须有，切入点为void，环绕通知可以为Object或void</li>
+<li>需要对目标方法调用进行异常处理</li>
+</ol>
+<h1 id="5-通知获得参数">5. 通知获得参数</h1>
+<blockquote>
+<p>在为切入点进行功能增强时，不仅仅增加一些功能，还需要对数据进行处理，主要的处理为切入点参数、返回值和异常数据。</p>
+</blockquote>
+<ol>
+<li>切入点参数：所有通知都适合获取
+<ol>
+<li>JoinPoint：前置、返回后、异常后和后置</li>
+<li>ProceedingJoinPoint：环绕通知</li>
+</ol>
+</li>
+<li>切入点返回值：前置和异常后没有返回值，后置方法可有可无，所以适合获得返回值的是有返回后和环绕。
+<ol>
+<li>返回后通知</li>
+<li>环绕通知</li>
+</ol>
+</li>
+<li>异常：只适合环绕和异常后
+<ol>
+<li>异常后通知</li>
+<li>环绕通知</li>
+</ol>
+</li>
+</ol>
+<h2 id="51-切入点参数">5.1 切入点参数</h2>
+<pre><code class="language-java">@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+    // 切入点
+    @Pointcut(&quot;execution(void cn.fishland.dao.UserDao.add(..))&quot;)
+    public void ptAdd() {
+    }
+
+    // 前置通知
+    @Before(&quot;ptAdd()&quot;)
+    public void before(JoinPoint joinPoint) {
+        System.out.println(&quot;before advice get args=&quot; + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    // 返回后通知
+    @AfterReturning(&quot;ptAdd()&quot;)
+    public void afterReturning(JoinPoint joinPoint) {
+        System.out.println(&quot;afterReturning advice get args=&quot; + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    // 异常后通知
+    @AfterThrowing(&quot;ptAdd()&quot;)
+    public void afterThrow(JoinPoint joinPoint) {
+        System.out.println(&quot;afterThrow advice get args=&quot; + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    // 后置通知
+    @After(&quot;ptAdd()&quot;)
+    public void after(JoinPoint joinPoint) {
+        System.out.println(&quot;after advice get args=&quot; + Arrays.toString(joinPoint.getArgs()));
+    }
+
+    // 环绕通知
+    @Around(&quot;ptAdd()&quot;)
+    public Object around(ProceedingJoinPoint point) {
+        Object proceed = null;
+        try {
+            System.out.println(&quot;around advice get args=&quot;+Arrays.toString(point.getArgs()));
+            proceed = point.proceed();
+            System.out.println(&quot;around advice end...&quot;);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return proceed;
+    }
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+
+   public void add(User user) {
+      System.out.println(&quot;UserDaoImpl add...&quot;);
+      for (int i = 0; i &lt; 10000; i++) {
+         System.out.print(&quot;wait&quot; + i + &quot; &quot;);
+      }
+      System.out.println();
+      // 去掉下面注释，会访问异常后通知
+      // throw new RuntimeException(&quot;....&quot;);
+   }
+}
+
+</code></pre>
+<h2 id="52-切入点返回值">5.2 切入点返回值</h2>
+<pre><code class="language-java">@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+    // 切入点
+    @Pointcut(&quot;execution(* cn.fishland.dao.UserDao.getBy*(..))&quot;)
+    public void ptGet() {
+    }
+
+    // 返回后通知获得返回值
+    @AfterReturning(value = &quot;ptGet()&quot;, returning = &quot;user&quot;)
+    public void getAfterReturning(User user) {
+        System.out.println(&quot;getAfterReturning return param=&quot; + user.toString());
+    }
+
+    // 环绕通知获得返回值
+    @Around(value = &quot;ptGet()&quot;)
+    public Object getAround(ProceedingJoinPoint joinPoint) {
+        Object proceed = null;
+        try {
+            proceed = joinPoint.proceed();
+            System.out.println(&quot;getAround return param=&quot; + proceed.toString());
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return proceed;
+    }
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+   public User getById(int id) {
+      User user = new User();
+      user.setId(1);
+      user.setName(&quot;fish&quot;);
+      System.out.println(&quot;UserDaoImpl getById...&quot;);
+      return user;
+   }
+}
+
+</code></pre>
+<h2 id="53-获得异常">5.3 获得异常</h2>
+<pre><code class="language-java">@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+
+    // 切入点
+    @Pointcut(&quot;execution(* cn.fishland.dao.UserDao.update(..))&quot;)
+    public void ptUpdate() {
+    }
+
+    // 异常后获得异常
+    @AfterThrowing(value = &quot;ptUpdate()&quot;, throwing = &quot;e&quot;)
+    public void updateAfterThrowing(Throwable e) {
+        System.out.println(&quot;updateAfterThrowing exception e=&quot; + e.getMessage());
+    }
+
+    // 环绕获得异常
+    @Around(&quot;ptUpdate()&quot;)
+    public Object updateAround(ProceedingJoinPoint joinPoint) {
+        Object proceed = null;
+        try {
+            proceed = joinPoint.proceed();
+        } catch (Throwable e) {
+            System.out.println(&quot;updateAround exception e=&quot; + e.getMessage());
+        }
+        return proceed;
+    }
+
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+   public void update(User user) {
+      System.out.println(&quot;UserDaoImpl update...&quot;);
+      throw new NullPointerException(&quot;UserDaoImpl update exception&quot;);
+   }
+}
+
+</code></pre>
+<h1 id="6-aop简单应用">6. AOP简单应用</h1>
+<h2 id="61-计算dao耗时">6.1 计算Dao耗时</h2>
+<blockquote>
+<p>计算每次操作数据库的方法耗时</p>
+</blockquote>
+<pre><code class="language-java">@Repository
+public class UserDaoImpl implements UserDao {
+
+   @Override
+   public User getById(int id) {
+      System.out.println(&quot;UserDaoImpl getById...&quot;);
+      for (int i = 0; i &lt; 10000; i++) {
+         System.out.print(i + &quot;,&quot;);
+      }
+      System.out.println();
+      return null;
+   }
+
+   @Override
+   public List&lt;User&gt; getAll() {
+      System.out.println(&quot;UserDaoImpl getAll...&quot;);
+      for (int i = 0; i &lt; 10000; i++) {
+         System.out.print(i + &quot;,&quot;);
+      }
+      System.out.println();
+      return null;
+   }
+}
+
+@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+   // 切入点
+   @Pointcut(&quot;execution(* cn.fishland.dao.UserDao.get*(..))&quot;)
+   public void ptGet() {
+   }
+
+   // 环绕通知
+   @Around(&quot;ptGet()&quot;)
+   public Object getAround(ProceedingJoinPoint joinPoint) {
+      Object proceed = null;
+      try {
+         long l = System.currentTimeMillis();
+         proceed = joinPoint.proceed();
+         // 计算耗时
+         System.out.println(&quot;use time:&quot; + (System.currentTimeMillis() - l));
+      } catch (Throwable e) {
+         System.out.println(&quot;updateAround exception e=&quot; + e.getMessage());
+      }
+      return proceed;
+   }
+
+}
+</code></pre>
+<h2 id="61-预处理参数">6.1 预处理参数</h2>
+<blockquote>
+<p>去掉参数的前后空格，使用环绕通知</p>
+</blockquote>
+<pre><code class="language-java">public interface UserDao {
+   User getByName(String name);
+}
+
+@Repository
+public class UserDaoImpl implements UserDao {
+    @Override
+    public User getByName(String name) {
+        System.out.println(&quot;UserDaoImpl getByName name=&quot; + name);
+        return null;
+    }
+}
+
+@Component
+// 通知类注解
+@Aspect
+public class DaoAdvice {
+   // 切入点
+   @Pointcut(&quot;execution(* cn.fishland.dao.UserDao.get*(..))&quot;)
+   public void ptGet() {
+   }
+
+   // 前置通知处理参数问题
+   @Around(&quot;ptGet()&quot;)
+   public Object getAround(ProceedingJoinPoint joinPoint) {
+      Object proceed = null;
+      try {
+         Object[] args = joinPoint.getArgs();
+         // 处理所有String类型
+         for (int i = 0; i &lt; args.length; i++) {
+            if (args[i].getClass().equals(String.class)) {
+                // 去除参数前后空格
+               args[i] = ((String) args[i]).trim();
+            }
+         }
+
+         proceed = joinPoint.proceed(args);
+      } catch (Throwable e) {
+         e.printStackTrace();
+      }
+      return proceed;
+   }
+}
+
+</code></pre>
+<h1 id="7-aop管理事务">7. AOP管理事务</h1>
+<blockquote>
+<p>事务在数据库中很重要，主要用于处理一些异常导致的数据问题。在Spring中提供两种事务使用方式，声明事务和编程事务。</p>
+</blockquote>
+<h2 id="71-简单案例">7.1 简单案例</h2>
+<blockquote>
+<p>同时操作两行数据，模拟转账，一个用户钱减少另一个增加。</p>
+</blockquote>
+<pre><code class="language-java">public interface AccountMapper {
+
+    @Update(&quot;update account set money = money - #{money} where id = #{out}&quot;)
+    void outMoney(@Param(&quot;out&quot;) int out,@Param(&quot;money&quot;) double money);
+
+    @Update(&quot;update account set money = money + #{money} where id = #{in}&quot;)
+    void inMoney(@Param(&quot;in&quot;) int in,@Param(&quot;money&quot;) double money);
+}
+
+@Service
+public class AccountServiceImpl implements AccountService {
+
+   @Autowired
+   AccountMapper accountMapper;
+
+   @Transactional
+   public boolean trnsfer(int out, int in, Double money) {
+
+      accountMapper.outMoney(out, money);
+
+      // 此处出现异常，事务就会自动回滚，数据都不会进行修改
+      int i = 1 / 0;
+
+      accountMapper.inMoney(in, money);
+
+      return true;
+   }
+}
+
+@Configuration
+@ComponentScan(&quot;cn.fishland&quot;)
+@PropertySource(&quot;classpath:jdbc.properties&quot;)
+@Import({JdbcConfig.class, MybatisConfig.class})
+// 开启事务管理
+@EnableTransactionManagement
+public class Appconfig {
+
+   // 装配事务管理
+   @Bean
+   public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+      DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
+      dataSourceTransactionManager.setDataSource(dataSource);
+      return dataSourceTransactionManager;
+   }
+}
+
+
+// 测试
+public class Application {
+   public static void main(String[] args) {
+      AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Appconfig.class);
+      AccountService accountService = context.getBean(AccountService.class);
+      accountService.trnsfer(1, 2, 100d);
+   }
+}
+</code></pre>
+<blockquote>
+<p>事务注解可以放在类方法上也可放在类上，实现类和接口类都行，<strong>一般放在实现类上</strong>。</p>
+</blockquote>
+<h2 id="72-事务角色">7.2 事务角色</h2>
+<blockquote>
+<p>事务角色分为事务管理员和事务协调员</p>
+</blockquote>
+<p>在不添加事务管理的情况下：</p>
+<ol>
+<li>开启事务一，运行后自动提交</li>
+</ol>
+<figure data-type="image" tabindex="3"><img src="../../../img/spring4.png" alt="" loading="lazy"></figure>
+<ol start="2">
+<li>开始事务二，运行后自动提交</li>
+</ol>
+<figure data-type="image" tabindex="4"><img src="../../../img/spring5.png" alt="" loading="lazy"></figure>
+<ol start="3">
+<li>当以上一二步骤之间出现异常，事务一正常提交，并不会回滚。</li>
+</ol>
+<p>当添加Spring事务之后：</p>
+<p>事务管理员会把单独的事务一和二统一起来管理，事务协调员代指dao或业务层。</p>
+<figure data-type="image" tabindex="5"><img src="../../../img/spring7.png" alt="" loading="lazy"></figure>
+<h2 id="73-事务注解属性">7.3 事务注解属性</h2>
+<figure data-type="image" tabindex="6"><img src="../../../img/spring8.png" alt="" loading="lazy"></figure>
+<ol>
+<li>readOnly：true只读事务，false读写事务。</li>
+<li>timeout：设置事务超时时长单位为秒。-1表示不设置时长</li>
+<li>rollbackFor：设置出现指定异常进行回滚。
+<ol>
+<li>并不是所有异常都会进行回滚，只有RuntimeException和Error这两个异常及其子类才会进行回滚。</li>
+</ol>
+</li>
+<li>noRollbackFor：设置出现指定异常不进行回滚</li>
+<li>rollbackForClassName：同rollbackFor，值为异常全类名字符串</li>
+<li>noRollbackForClassName：同于noRollbackFor，只不过属性为异常的类全名字符串</li>
+<li>isolation：设置事务隔离级别
+<ol>
+<li>DEFAULT :默认隔离级别, 会采用数据库的隔离级别</li>
+<li>READ_UNCOMMITTED : 读未提交</li>
+<li>READ_COMMITTED : 读已提交</li>
+<li>REPEATABLE_READ : 重复读取</li>
+<li>SERIALIZABLE: 串行化</li>
+</ol>
+</li>
+</ol>
+<h2 id="74-事务传播行为">7.4 事务传播行为</h2>
+<blockquote>
+<p>提出问题，在进行转账后需要添加事务，无论是否成功都需要添加日志，如果正常添加就会出现问题。</p>
+</blockquote>
+<p>正常思路问题代码：</p>
+<pre><code class="language-java">public interface LogService {
+
+    List&lt;Account&gt; getAll();
+
+    boolean add(Log log);
+}
+
+@Service
+public class LogServiceImpl implements LogService {
+
+   @Autowired
+   LogMapper logMapper;
+
+   public List&lt;Account&gt; getAll() {
+      return logMapper.selectAll();
+   }
+
+   @Transactional
+   public boolean add(Log log) {
+      return logMapper.insert(log) == 1;
+   }
+}
+
+@Service
+public class AccountServiceImpl implements AccountService {
+
+   @Autowired
+   AccountMapper accountMapper;
+
+   @Autowired
+   LogService logService;
+
+   @Transactional
+   public boolean trnsfer(int out, int in, Double money) {
+      boolean flag = false;
+      try {
+         accountMapper.outMoney(out, money);
+         // 出现异常后所有事务都会回滚，日志也不会提交
+         int x = 1 / 0;
+         accountMapper.inMoney(in, money);
+         flag = true;
+         return true;
+      } finally {
+         logService.add(new Log(&quot;trnsfer money &quot; + flag, new Date()));
+      }
+   }
+}
+</code></pre>
+<blockquote>
+<p>解决思路，日志操作事务与转账操作分开，是单独的事务。Spring中用到的是事务传播行为。</p>
+</blockquote>
+<p>设置一下事务传播行为即可：</p>
+<pre><code class="language-java">@Service
+public class LogServiceImpl implements LogService {
+
+    @Autowired
+    LogMapper logMapper;
+
+    public List&lt;Account&gt; getAll() {
+        return logMapper.selectAll();
+    }
+
+    // 开启一个新的事务
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public boolean add(Log log) {
+        return logMapper.insert(log) == 1;
+    }
+}
+</code></pre>
+<p>事务传播行为：</p>
+<table>
+<thead>
+<tr>
+<th>传播属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Required（默认值）</td>
+<td>当前存在事务就加入，不存在就创建</td>
+</tr>
+<tr>
+<td>Support</td>
+<td>当前存在事务就加入，不存在就以非事务形式执行</td>
+</tr>
+<tr>
+<td>Mandatory</td>
+<td>当前存在事务就加入，不存在事务就报错</td>
+</tr>
+<tr>
+<td>Required_new</td>
+<td>无论当前是否存在事务，都会新建事务</td>
+</tr>
+<tr>
+<td>no_support</td>
+<td>以非事务形式运行，当前存在事务就挂起</td>
+</tr>
+<tr>
+<td>never</td>
+<td>以非事务形式运行，当前存在事务就报错</td>
+</tr>
+<tr>
+<td>nested</td>
+<td>当前存在事务就在嵌套事务中运行，不存在就执行Required传播行为</td>
+</tr>
+</tbody>
+</table>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://stackyu.github.io/post/spring-ji-chu-zhi-shi/" class="post-title gt-a-link">
+                    Spring基础知识
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">StackYu的个人博客</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/stackyu" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        
+    </div>
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://stackyu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

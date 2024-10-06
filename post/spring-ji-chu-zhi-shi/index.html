@@ -1,0 +1,1704 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Spring基础知识 | StackYu</title>
+
+<link rel="shortcut icon" href="https://stackyu.github.io/favicon.ico?v=1728228395256">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackyu.github.io/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/9.12.0/languages//dart.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            StackYu
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1728228395256"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Spring基础知识
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-01-19 ·
+                    </time>
+                    
+                        <a href="https://stackyu.github.io/tag/E1GSjgTC3/" class="post-tags">
+                            # Spring
+                        </a>
+                    
+                        <a href="https://stackyu.github.io/tag/cMhvc0ocP/" class="post-tags">
+                            # Java
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h1 id="1-概述">1. 概述</h1>
+<blockquote>
+<p>Spring是整合框架、简化开发的框架，主要的技术为IOC、DI、AOP和事务等。可以理解为它是一个管家，管理者项目中的对象，集精华框架不重复造轮子。</p>
+</blockquote>
+<p>框架架构图：</p>
+<figure data-type="image" tabindex="1"><img src="../../img/spring0.png" alt="" loading="lazy"></figure>
+<h1 id="2-简单入门">2. 简单入门</h1>
+<h2 id="21-ioc">2.1 IOC</h2>
+<blockquote>
+<p>IOC称之为控制反转，大致的意思是将项目中有自己来维护的对象创建由Spring进行来创建管理，自己维护时是用什么创建什么，现在是需要什么就直接从容器中拿什么。</p>
+</blockquote>
+<p>示例：</p>
+<ol>
+<li>创建项目，添加核心依赖：</li>
+</ol>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+    &lt;version&gt;5.2.10.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<ol start="2">
+<li>创建需要管理类：</li>
+</ol>
+<pre><code class="language-java">public interface UserDao {
+    void save();
+}
+
+public class UserDaoImpl implements UserDao {
+    public void save() {
+        System.out.println(&quot;UserDao save run&quot;);
+    }
+}
+
+public interface UserService {
+    void add();
+}
+
+public class UserServiceImpl implements UserService {
+
+    private UserDao userDao = new UserDaoImpl();
+
+    public void add() {
+        userDao.save();
+        System.out.println(&quot;UserService add run...&quot;);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>创建配置文件：</li>
+</ol>
+<p>application.xml</p>
+<pre><code class="language-xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot;/&gt;
+
+&lt;/beans&gt;
+</code></pre>
+<ol start="4">
+<li>使用容器获得类：</li>
+</ol>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        UserService userService = (UserService) context.getBean(&quot;userService&quot;);
+        userService.add();
+    }
+}
+</code></pre>
+<h2 id="22-di">2.2 DI</h2>
+<blockquote>
+<p>类之间可能存在依赖，DI技术会把需要的依赖一并纳入容器管理。</p>
+</blockquote>
+<ol>
+<li>修改<code>UserServiceImpl</code>类</li>
+</ol>
+<pre><code class="language-java">public class UserServiceImpl implements UserService {
+
+    private UserDao userDao;
+
+    public void add() {
+        userDao.save();
+        System.out.println(&quot;UserService add run...&quot;);
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+}
+</code></pre>
+<ol start="2">
+<li>配置依赖关系</li>
+</ol>
+<pre><code class="language-xml">&lt;beans&gt;
+
+    &lt;!--配置需要管理的类
+        id：唯一标识
+        class：类的全路径名
+    --&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.dao.impl.UserDaoImpl&quot;/&gt;
+
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot;&gt;
+        &lt;!--设置属性
+            name：属性名称
+            ref：关联的类（其他配置类id）
+        --&gt;
+        &lt;property name=&quot;userDao&quot; ref=&quot;userDao&quot;/&gt;
+    &lt;/bean&gt;
+
+&lt;/beans&gt;
+</code></pre>
+<ol start="3">
+<li>调用</li>
+</ol>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        UserService userService = (UserService) context.getBean(&quot;userService&quot;);
+        userService.add();
+    }
+}
+</code></pre>
+<h1 id="3-ioc和bean">3. IOC和Bean</h1>
+<blockquote>
+<p>在Spring中每个类对象被称为Bean，Bean通过一系列的属性配置，容器可以通过一些列配置信息进行管理。</p>
+</blockquote>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean .../&gt;
+    &lt;bean .../&gt;
+    ...
+&lt;/beans&gt;
+</code></pre>
+<h2 id="31-基础属性">3.1 基础属性</h2>
+<h3 id="311-id">3.1.1 id</h3>
+<blockquote>
+<p>bean的唯一标识，主要用于bean查找。</p>
+</blockquote>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;userDao&quot; .../&gt;
+    &lt;bean id=&quot;userService&quot; .../&gt;
+    ...
+&lt;/beans&gt;
+</code></pre>
+<h3 id="312-class">3.1.2 class</h3>
+<blockquote>
+<p>bean需要实例化类的全路径名</p>
+</blockquote>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.dao.impl.UserDaoImpl&quot;/&gt;
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot; /&gt;
+    ...
+&lt;/beans&gt;
+</code></pre>
+<h3 id="313-name">3.1.3 name</h3>
+<blockquote>
+<p>为bean起的别名，引用bean也可以通过name中名称完成，多个name名称可以通过逗号（,）分号（;）和空格来实现</p>
+</blockquote>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.dao.impl.UserDaoImpl&quot; name=&quot;dao ud&quot;/&gt;
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot; name=&quot;service us&quot;&gt;
+        &lt;!--可以引用别名--&gt;
+        &lt;property name=&quot;userDao&quot; ref=&quot;dao&quot;/&gt;
+    &lt;/bean&gt;
+    ...
+&lt;/beans&gt;
+</code></pre>
+<h3 id="314-scope">3.1.4 scope</h3>
+<blockquote>
+<p>bean的作用范围，表示bean是单例还是多例。可选值为singleton和prototype。bean默认是单例的，所以可能出现线程安全问题。所以容器中管理的对象一般<br>
+为无状态类，此类不存储数据。例如表现层，服务层，数据层，工具类。</p>
+</blockquote>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;!--单例对象--&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.dao.impl.UserDaoImpl&quot; name=&quot;dao ud&quot; scope=&quot;singleton&quot;/&gt;
+    &lt;!--多例对象--&gt;
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot; name=&quot;service us&quot; scope=&quot;prototype&quot;&gt;
+        &lt;!--可以引用别名--&gt;
+        &lt;property name=&quot;userDao&quot; ref=&quot;dao&quot;/&gt;
+    &lt;/bean&gt;
+    ...
+&lt;/beans&gt;
+</code></pre>
+<h2 id="32-bean实例化">3.2 bean实例化</h2>
+<blockquote>
+<p>容器通过配置就可以实例化类，它是通过构造方法进行类的创建，也可以通过bean配置来改变示例化方式。总结有三种方式来实例化构造方法、静态工厂和实例工厂。</p>
+</blockquote>
+<h3 id="321-构造方法">3.2.1 构造方法</h3>
+<ol>
+<li>准备的类</li>
+</ol>
+<pre><code class="language-java">public class UserDaoImpl implements UserDao {
+    // 构造函数权限为private，Spring还是可以实力化对象的
+    public UserDaoImpl() {
+        System.out.println(&quot;UserDaoImpl init...&quot;);
+    }
+
+    public void save() {
+        System.out.println(&quot;UserDao save run&quot;);
+    }
+}
+</code></pre>
+<ol start="2">
+<li>配置bean</li>
+</ol>
+<p><code>&lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.dao.impl.UserDaoImpl&quot;/&gt;</code></p>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        UserDao userDao = (UserDao) context.getBean(&quot;userDao&quot;);
+        userDao.save();
+    }
+}
+</code></pre>
+<p><strong><em>通过以上控制台显示可以看出是调用构造函数，但是当我们把构造函数权限变成私private有也是可以实例化对象的。</em></strong><br>
+这是因为Spring是通过反射来实现初始化的。但是类必须有无参构造函数，否则无法实例化。</p>
+<h3 id="322-静态工厂">3.2.2 静态工厂</h3>
+<blockquote>
+<p>用工厂类来实现类的实例化</p>
+</blockquote>
+<pre><code class="language-java">public class UserDaoFactory {
+    public static UserDao userDao() {
+        // 实例化前一些必须操作
+        System.out.println(&quot;init UserDao pre work...&quot;);
+        return new UserDaoImpl();
+    }
+}
+</code></pre>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.tool.UserDaoFactory&quot; factory-method=&quot;userDao&quot;/&gt;
+</code></pre>
+<h3 id="323-实例化工厂">3.2.3 实例化工厂</h3>
+<blockquote>
+<p>通过工厂实例化bean与静态工厂不同的是需要先实例化工厂才可以使用。</p>
+</blockquote>
+<ol>
+<li>实例化工厂实现</li>
+</ol>
+<p>类：</p>
+<pre><code class="language-java">public interface BookDao {
+    void show();
+}
+
+public class BookDaoImpl implements BookDao {
+
+    public BookDaoImpl() {
+        System.out.println(&quot;BookDao init...&quot;);
+    }
+
+    public void show() {
+        System.out.println(&quot;BookDao run...&quot;);
+    }
+}
+</code></pre>
+<p>工厂类：</p>
+<pre><code class="language-java">public class BookDaoFactory {
+    private BookDao bookDao() {
+        return new BookDaoImpl();
+    }
+}
+</code></pre>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;bookDaoFactory&quot; class=&quot;cn.fishland.tool.BookDaoFactory&quot;/&gt;
+    &lt;bean id=&quot;bookDao&quot; class=&quot;cn.fishland.dao.impl.BookDaoImpl&quot; factory-bean=&quot;bookDaoFactory&quot; factory-method=&quot;bookDao&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        BookDao bookDao = (BookDao) context.getBean(&quot;bookDao&quot;);
+        bookDao.show();
+    }
+}
+</code></pre>
+<ol start="2">
+<li>实现FactoryBean创建实例化工厂</li>
+</ol>
+<p>创建工程类：</p>
+<pre><code class="language-java">public class BookDaoFactoryBean implements FactoryBean&lt;BookDao&gt; {
+    /** 获得实例化对象 */
+    public BookDao getObject() throws Exception {
+        return new BookDaoImpl();
+    }
+
+    /** 实例化对象类型 */
+    public Class&lt;?&gt; getObjectType() {
+        return null;
+    }
+
+    /** 是否为单例 */
+    public boolean isSingleton() {
+        return true;
+    }
+}
+</code></pre>
+<p>配置文件：</p>
+<pre><code class="language-xml">&lt;!--如此简单--&gt;
+&lt;bean id=&quot;bookDaoBean&quot; class=&quot;cn.fishland.tool.BookDaoFactoryBean&quot;/&gt;
+</code></pre>
+<h2 id="33-bean生命周期">3.3 bean生命周期</h2>
+<blockquote>
+<p>生命周期即bean从创建到销毁的过程，在整个过程都干了什么事（执行了哪些方法以便于我们自己实现来进行修改）。</p>
+</blockquote>
+<ol>
+<li>简单实现</li>
+</ol>
+<p>类：</p>
+<pre><code class="language-java">public interface MenuDao {
+    void save();
+}
+
+public class MenuDaoImpl implements MenuDao {
+    public MenuDaoImpl() {
+        System.out.println(&quot;MenuDaoImpl construct...&quot;);
+    }
+
+    public void save() {
+        System.out.println(&quot;MenuDaoImpl save run...&quot;);
+    }
+
+    public void init() {
+        System.out.println(&quot;MenuDaoImpl init...&quot;);
+    }
+
+    public void destory() {
+        System.out.println(&quot;MenuDaoImpl destory...&quot;);
+    }
+}
+</code></pre>
+<p>配置：<code>&lt;bean id=&quot;menuDao&quot; class=&quot;cn.fishland.dao.impl.MenuDaoImpl&quot; init-method=&quot;init&quot; destroy-method=&quot;destory&quot;/&gt;</code></p>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        MenuDao menuDao = (MenuDao) context.getBean(&quot;menuDao&quot;);
+        menuDao.save();
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<blockquote>
+<p>执行顺序构造、init、destory</p>
+</blockquote>
+<ol start="2">
+<li>通过实现接口简化配置</li>
+</ol>
+<blockquote>
+<p>实现接口InitializingBean完成afterPropertiesSet方法，为bean的init-method。实现接口DisposableBean完成destroy方法，为bean的destroy-method</p>
+</blockquote>
+<p>类：</p>
+<pre><code class="language-java">public class MenuDaoImpl implements MenuDao, InitializingBean, DisposableBean {
+    public MenuDaoImpl() {
+        System.out.println(&quot;MenuDaoImpl construct...&quot;);
+    }
+
+    public void save() {
+        System.out.println(&quot;MenuDaoImpl save run...&quot;);
+    }
+
+    /** destroy方法 */
+    public void destroy() throws Exception {
+        System.out.println(&quot;MenuDaoImpl destroy...&quot;);
+    }
+
+    /** init方法 */
+    public void afterPropertiesSet() throws Exception {
+        System.out.println(&quot;MenuDaoImpl afterPropertiesSet...&quot;);
+    }
+}
+</code></pre>
+<p>配置：</p>
+<p><code>&lt;bean id=&quot;menuDao&quot; class=&quot;cn.fishland.dao.impl.MenuDaoImpl&quot;/&gt;</code></p>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        MenuDao menuDao = (MenuDao) context.getBean(&quot;menuDao&quot;);
+        menuDao.save();
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<p><strong>总结：</strong> bean的生命周期</p>
+<ol>
+<li>创建对象</li>
+<li>调用构造</li>
+<li>执行setter</li>
+<li>执行bean的init</li>
+<li>使用bean执行业务方法</li>
+<li>关闭销毁执行bean销毁方法</li>
+</ol>
+<h1 id="4-di">4. DI</h1>
+<blockquote>
+<p>DI称为依赖注入，就是通过配置将类属性进行设置。依赖注入分为两种setter和构造方法，注入的内容为引用类型和基础数据类型。</p>
+</blockquote>
+<h2 id="41-setter">4.1 setter</h2>
+<h3 id="421-注入引用数据类型">4.2.1 注入引用数据类型</h3>
+<p>类：</p>
+<pre><code class="language-java">public interface UserDao {
+    void save();
+}
+
+public class UserDaoImpl implements UserDao {
+    public UserDaoImpl() {
+        System.out.println(&quot;UserDaoImpl init...&quot;);
+    }
+
+    public void save() {
+        System.out.println(&quot;UserDao save run&quot;);
+    }
+}
+
+public interface UserService {
+    void add();
+}
+
+public class UserServiceImpl implements UserService {
+
+    private UserDao userDao;
+
+    public void add() {
+        userDao.save();
+        System.out.println(&quot;UserService add run...&quot;);
+    }
+
+    // 需要添加属性set方法
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+}
+</code></pre>
+<p>配置信息：</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.tool.UserDaoFactory&quot; factory-method=&quot;userDao&quot;/&gt;
+
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot;&gt;
+        &lt;!--设置属性
+            name：属性名称
+            ref：关联的类（其他配置类id）
+        --&gt;
+        &lt;property name=&quot;userDao&quot; ref=&quot;userDao&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        UserService userService = (UserService) context.getBean(&quot;userService&quot;);
+        userService.add();
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<h3 id="421-注入基础数据类型">4.2.1 注入基础数据类型</h3>
+<p>类：</p>
+<pre><code class="language-java">public interface TagDao {
+    void show();
+}
+
+public class TagDaoImpl implements TagDao {
+    private String name;
+    private String flag;
+
+    public void show() {
+        System.out.println(&quot;TagDaoImpl show... name=&quot; + name + &quot; flag=&quot; + flag);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+}
+</code></pre>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;bean id=&quot;tagDao&quot; class=&quot;cn.fishland.dao.impl.TagDaoImpl&quot;&gt;
+    &lt;!--
+        name：需要注入的属性名称
+        value：注入的值，spring会自动类型转换，需要确保在转换中不会出错。
+    --&gt;
+    &lt;property name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+    &lt;property name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        TagDao tagDao = (TagDao) context.getBean(&quot;tagDao&quot;);
+        tagDao.show();
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<h2 id="42-构造注入">4.2 构造注入</h2>
+<h3 id="421-引用类型注入">4.2.1 引用类型注入</h3>
+<p>类：</p>
+<pre><code class="language-java">public interface TagService {
+    void add();
+}
+
+public class TagServiceImpl implements TagService {
+
+    private TagDao tagDao;
+
+    public TagServiceImpl(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
+
+    public void add() {
+        tagDao.show();
+        System.out.println(&quot;TagServiceImpl add...&quot;);
+    }
+}
+</code></pre>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;bean&gt;
+    &lt;bean id=&quot;tagDao&quot; class=&quot;cn.fishland.dao.impl.TagDaoImpl&quot;&gt;
+        &lt;!--
+            name：需要注入的属性名称
+            value：注入的值，spring会自动类型转换，需要确保在转换中不会出错。
+        --&gt;
+        &lt;property name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+        &lt;property name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=&quot;tagService&quot; class=&quot;cn.fishland.service.impl.TagServiceImpl&quot;&gt;
+        &lt;constructor-arg name=&quot;tagDao&quot; ref=&quot;tagDao&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/bean&gt;
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        TagService tagService = (TagService) context.getBean(&quot;tagService&quot;);
+        tagService.add();
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<h3 id="422-基础数据类型">4.2.2 基础数据类型</h3>
+<pre><code class="language-java">public class TagServiceImpl implements TagService {
+
+    private TagDao tagDao;
+    private String name;
+    private Integer flag;
+
+    public TagServiceImpl(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
+
+    public TagServiceImpl(TagDao tagDao, String name, Integer flag) {
+        this.tagDao = tagDao;
+        this.name = name;
+        this.flag = flag;
+    }
+
+    public void add() {
+        tagDao.show();
+        System.out.println(&quot;TagServiceImpl add...&quot;);
+        System.out.println(&quot;TagServiceImpl name=&quot; + name);
+        System.out.println(&quot;TagServiceImpl flag=&quot; + flag);
+    }
+}
+</code></pre>
+<p>配置：方式一</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;tagDao&quot; class=&quot;cn.fishland.dao.impl.TagDaoImpl&quot;&gt;
+        &lt;!--
+            name：需要注入的属性名称
+            value：注入的值，spring会自动类型转换，需要确保在转换中不会出错。
+        --&gt;
+        &lt;property name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+        &lt;property name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=&quot;tagService&quot; class=&quot;cn.fishland.service.impl.TagServiceImpl&quot;&gt;
+        &lt;!--
+            name:为形参的名称
+        --&gt;
+        &lt;constructor-arg name=&quot;tagDao&quot; ref=&quot;tagDao&quot;/&gt;
+        &lt;constructor-arg name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+        &lt;constructor-arg name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>配置：方式二，主要输解决构造方法形参名称改变导致的一些列问题</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;tagDao&quot; class=&quot;cn.fishland.dao.impl.TagDaoImpl&quot;&gt;
+        &lt;!--
+            name：需要注入的属性名称
+            value：注入的值，spring会自动类型转换，需要确保在转换中不会出错。
+        --&gt;
+        &lt;property name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+        &lt;property name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;bean id=&quot;tagService&quot; class=&quot;cn.fishland.service.impl.TagServiceImpl&quot;&gt;
+        &lt;!--
+            type：为形参的数据类型，当存在相同数据类型就会出现问题
+        --&gt;
+        &lt;constructor-arg type=&quot;cn.fishland.dao.TagDao&quot; ref=&quot;tagDao&quot;/&gt;
+        &lt;constructor-arg type=&quot;java.lang.String&quot; value=&quot;fish&quot;/&gt;
+        &lt;constructor-arg type=&quot;java.lang.Integer&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<p>配置：方式三，解耦又可以避免相同类型问题</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;tagDao&quot; class=&quot;cn.fishland.dao.impl.TagDaoImpl&quot;&gt;
+        &lt;!--
+            name：需要注入的属性名称
+            value：注入的值，spring会自动类型转换，需要确保在转换中不会出错。
+        --&gt;
+        &lt;property name=&quot;name&quot; value=&quot;fish&quot;/&gt;
+        &lt;property name=&quot;flag&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!--
+        index：形参的位置，从0开始
+    --&gt;
+    &lt;bean id=&quot;tagService&quot; class=&quot;cn.fishland.service.impl.TagServiceImpl&quot;&gt;
+        &lt;constructor-arg index=&quot;0&quot; ref=&quot;tagDao&quot;/&gt;
+        &lt;constructor-arg index=&quot;1&quot; value=&quot;fish&quot;/&gt;
+        &lt;constructor-arg index=&quot;2&quot; value=&quot;1&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<h2 id="43-自动装配">4.3 自动装配</h2>
+<blockquote>
+<p>前面两种方式都较麻烦，需要大量的配置文件，Spring还提供了自动装配设置，更为简单。IOC容器会根据一些条件自动在容器中寻找符合条件的依赖bean。<br>
+装配的条件为按照类型、按照名称。</p>
+</blockquote>
+<ol>
+<li>按类型注入</li>
+</ol>
+<p><strong>自动装配必须条件：</strong></p>
+<ol>
+<li>被注入类必须在容器管理中</li>
+<li>注入属性需要有setter方法</li>
+<li>容器中存在多个相同类型按照类型注入就会失败</li>
+</ol>
+<pre><code class="language-java">public class UserDaoImpl implements UserDao {
+    public UserDaoImpl() {
+        System.out.println(&quot;UserDaoImpl init...&quot;);
+    }
+
+    public void save() {
+        System.out.println(&quot;UserDao save run&quot;);
+    }
+}
+
+public class UserServiceImpl implements UserService {
+
+    private UserDao userDao;
+
+    public void add() {
+        userDao.save();
+        System.out.println(&quot;UserService add run...&quot;);
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+}
+</code></pre>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean class=&quot;cn.fishland.tool.UserDaoFactory&quot; factory-method=&quot;userDao&quot;/&gt;
+    &lt;!--
+        autowire；开启自动装配，byType表示根据类型装配
+    --&gt;
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot; autowire=&quot;byType&quot; /&gt;
+&lt;/beans&gt;
+</code></pre>
+<ol start="2">
+<li>按名称注入</li>
+</ol>
+<blockquote>
+<p>存在一个问题，当容器存在多个相同类型，就会导致装配失败，这时可以使用根据名称装配。按照名称注入如果容器找不到对应的类就会注入null</p>
+</blockquote>
+<p>名称：指的是注入setter方法去掉set后首字母小写名称，按照默认set规则，最后的结果就是属性名称。</p>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;bean id=&quot;userDao&quot; class=&quot;cn.fishland.tool.UserDaoFactory&quot; factory-method=&quot;userDao&quot;/&gt;
+    &lt;!--
+        byName：开启根据名称注入
+    --&gt;
+    &lt;bean id=&quot;userService&quot; class=&quot;cn.fishland.service.impl.UserServiceImpl&quot; autowire=&quot;byName&quot; /&gt;
+&lt;/beans&gt;
+</code></pre>
+<p><em><strong>总结：</strong></em></p>
+<ol>
+<li>自动装配适用于引用类型，不适用基础数据类型</li>
+<li>按照类型装配需要确保容器中只有一个类型的bean</li>
+<li>按照名称注入耦合较大</li>
+<li>自动装配优先级低于setter和构造方法配置注入，同时存在自动装配失效</li>
+</ol>
+<h2 id="44-集合注入">4.4 集合注入</h2>
+<pre><code class="language-java">public class CollectionDaoImpl implements CollectionDao {
+
+    private int[] array;
+    private List&lt;String&gt; list;
+    private Set&lt;String&gt; set;
+    private Map&lt;String, String&gt; map;
+    private Properties properties;
+
+    public void showData() {
+        System.out.println(&quot;CollectionDaoImpl showData...&quot;);
+        System.out.println(&quot;CollectionDaoImpl array=&quot; + Arrays.toString(array));
+        System.out.println(&quot;CollectionDaoImpl list=&quot; + list);
+        System.out.println(&quot;CollectionDaoImpl set=&quot; + set);
+        System.out.println(&quot;CollectionDaoImpl map=&quot; + map);
+        System.out.println(&quot;CollectionDaoImpl properties=&quot; + properties);
+
+    }
+
+    public void setArray(int[] array) {
+        this.array = array;
+    }
+
+    public void setList(List&lt;String&gt; list) {
+        this.list = list;
+    }
+
+    public void setSet(Set&lt;String&gt; set) {
+        this.set = set;
+    }
+
+    public void setMap(Map&lt;String, String&gt; map) {
+        this.map = map;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
+}
+</code></pre>
+<pre><code class="language-xml">&lt;bean id=&quot;collectionDao&quot; class=&quot;cn.fishland.dao.impl.CollectionDaoImpl&quot;&gt;
+    &lt;property name=&quot;array&quot;&gt;
+        &lt;array&gt;
+            &lt;value&gt;1&lt;/value&gt;
+            &lt;value&gt;2&lt;/value&gt;
+            &lt;value&gt;3&lt;/value&gt;
+        &lt;/array&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;list&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;itcast&lt;/value&gt;
+            &lt;value&gt;itheima&lt;/value&gt;
+            &lt;value&gt;boxuegu&lt;/value&gt;
+            &lt;value&gt;chuanzhihui&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;set&quot;&gt;
+        &lt;set&gt;
+            &lt;value&gt;itcast&lt;/value&gt;
+            &lt;value&gt;itheima&lt;/value&gt;
+            &lt;value&gt;boxuegu&lt;/value&gt;
+            &lt;value&gt;boxuegu&lt;/value&gt;
+        &lt;/set&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;map&quot;&gt;
+        &lt;map&gt;
+            &lt;entry key=&quot;country&quot; value=&quot;china&quot;/&gt;
+            &lt;entry key=&quot;province&quot; value=&quot;henan&quot;/&gt;
+            &lt;entry key=&quot;city&quot; value=&quot;kaifeng&quot;/&gt;
+        &lt;/map&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;properties&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;country&quot;&gt;china&lt;/prop&gt;
+            &lt;prop key=&quot;province&quot;&gt;henan&lt;/prop&gt;
+            &lt;prop key=&quot;city&quot;&gt;kaifeng&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+<h1 id="5-配置第三方bean">5. 配置第三方Bean</h1>
+<p>配置Druid数据库连接池:</p>
+<ol>
+<li>引依赖</li>
+</ol>
+<pre><code class="language-xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;druid&lt;/artifactId&gt;
+        &lt;version&gt;1.2.15&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.30&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<ol start="2">
+<li>配置</li>
+</ol>
+<pre><code class="language-xml">&lt;bean id=&quot;dataSource&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot;&gt;
+    &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+    &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:33060/BookManager&quot;/&gt;
+    &lt;property name=&quot;username&quot; value=&quot;root&quot;/&gt;
+    &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        DataSource dataSource = (DataSource) context.getBean(&quot;dataSource&quot;);
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<p>配置C3p0数据库连接池:</p>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;bean id=&quot;dataSourceC3p0&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+    &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot;/&gt;
+    &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql://localhost:33060/BookManager&quot;/&gt;
+    &lt;property name=&quot;user&quot; value=&quot;root&quot;/&gt;
+    &lt;property name=&quot;password&quot; value=&quot;root&quot;/&gt;
+    &lt;property name=&quot;maxPoolSize&quot; value=&quot;1000&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<h1 id="6-加载properties文件">6. 加载properties文件</h1>
+<ol>
+<li>添加properties文件</li>
+</ol>
+<p>jdbc.properties</p>
+<pre><code class="language-properties">jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:33060/BookManager
+jdbc.username=root
+jdbc.password=root
+</code></pre>
+<ol start="2">
+<li>添加context命名空间</li>
+</ol>
+<pre><code class="language-xml">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            &lt;!--新增--&gt;
+            http://www.springframework.org/schema/context
+            &lt;!--新增--&gt;
+            http://www.springframework.org/schema/context/spring-context.xsd&quot;
+        &lt;!--新增--&gt;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;&gt;
+    
+&lt;/beans&gt;
+</code></pre>
+<ol start="3">
+<li>配置添加properties文件</li>
+</ol>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;!--加载本地文件--&gt;
+    &lt;context:property-placeholder location=&quot;jdbc.properties&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<ol start="4">
+<li>引用properties属性</li>
+</ol>
+<pre><code class="language-xml">&lt;!--使用${}来获得内容--&gt;
+&lt;bean id=&quot;dataSourceC3p0&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+    &lt;property name=&quot;driverClass&quot; value=&quot;${jdbc.driver}&quot;/&gt;
+    &lt;property name=&quot;jdbcUrl&quot; value=&quot;${jdbc.url}&quot;/&gt;
+    &lt;property name=&quot;user&quot; value=&quot;${jdbc.username}&quot;/&gt;
+    &lt;property name=&quot;password&quot; value=&quot;${jdbc.password}&quot;/&gt;
+    &lt;property name=&quot;maxPoolSize&quot; value=&quot;1000&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+<ol start="5">
+<li>测试</li>
+</ol>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        DataSource dataSource = (DataSource) context.getBean(&quot;dataSourceC3p0&quot;);
+        System.out.println(dataSource);
+        // 关闭容器
+        context.close();
+    }
+}
+</code></pre>
+<p><em><strong>注意：</strong></em></p>
+<ol>
+<li>本地的username与环境变量冲突</li>
+</ol>
+<p>在加载jdbc.properties文件的时候，也会加载系统环境变量。本地与系统发生冲突后，系统优先。</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        /*此方法可以查看系统环境变量*/
+        Map&lt;String, String&gt; env = System.getenv();
+        System.out.println(env);
+    }
+}
+</code></pre>
+<p>可以配置<code>system-properties-mode=&quot;NEVER&quot;</code>表示不加载系统环境变量</p>
+<ol start="2">
+<li>加载多个文件</li>
+</ol>
+<pre><code class="language-xml">&lt;beans&gt;
+    &lt;!--
+        在location中配置多个文件名，中间用逗号隔开
+    --&gt;
+    &lt;context:property-placeholder location=&quot;jdbc.properties,jdbc2.properties&quot; system-properties-mode=&quot;NEVER&quot;/&gt;
+    &lt;!--
+        *.properties：表示所有以properties结尾的文件都会被加载
+    --&gt;
+    &lt;context:property-placeholder location=&quot;*.properties&quot; system-properties-mode=&quot;NEVER&quot;/&gt;
+    &lt;!--
+        classpath:*.properties：项目根目录下所有properties文件都会被加载
+    --&gt;
+    &lt;context:property-placeholder location=&quot;classpath:*.properties&quot; system-properties-mode=&quot;NEVER&quot;/&gt;
+    &lt;!--
+        classpath*:*.properties：项目加项目依赖所有的properties文件
+    --&gt;
+    &lt;context:property-placeholder location=&quot;classpath*:*.properties&quot; system-properties-mode=&quot;NEVER&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<h1 id="7-核心容器">7. 核心容器</h1>
+<h2 id="71-容器创建">7.1 容器创建</h2>
+<blockquote>
+<p>容器主要有两种：ClassPathXmlApplicationContext和FileSystemXmlApplicationContext</p>
+</blockquote>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        /*
+         * 类翻译过来的意思就是类路径下XML配置文件，所以参数就是类路径下xml文件
+         * */
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+
+        /*
+         * 文件系统下的XML配置文件，配置文件在项目的文件系统下
+         * */
+        FileSystemXmlApplicationContext context1 = new FileSystemXmlApplicationContext(&quot;D:\\XXX\\XX\\X\\application.xml&quot;);
+    }
+}
+</code></pre>
+<h2 id="72-bean获得">7.2 Bean获得</h2>
+<blockquote>
+<p>获得bean有三种方式</p>
+</blockquote>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        // 通过bean的id获得
+        BookDao bookDao = (BookDao) context.getBean(&quot;bookDao&quot;);
+        // 通过名称获得，并且给出结果的类型，免除强制类型转换       
+        BookDao bookDao = ctx.getBean(&quot;bookDao&quot;, BookDao.class);
+        // 直接通过类型获得，这种方法存在一些局限性，确保容器中只有一个这种类型实例
+        BookDao bookDao = ctx.getBean(BookDao.class);
+    }
+}
+</code></pre>
+<h2 id="73-beanfactory">7.3 BeanFactory</h2>
+<p>创建BeanFactory：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource(&quot;application.xml&quot;));
+        CollectionDao collectionDao = beanFactory.getBean(&quot;collectionDao&quot;, CollectionDao.class);
+        collectionDao.showData();
+    }
+}
+</code></pre>
+<p>ApplicationContext和BeanFactory区别：</p>
+<ol>
+<li>BeanFactory是懒加载，使用时才会加载</li>
+<li>ApplicationContext支持懒加载，但是默认是容器创建就会加载bean</li>
+</ol>
+<p>ApplicationContext实现懒加载：</p>
+<pre><code class="language-xml">&lt;!--
+    lazy-init:true开启加载，false为不开启，default默认
+--&gt;
+&lt;bean id=&quot;menuDao&quot; class=&quot;cn.fishland.dao.impl.MenuDaoImpl&quot; lazy-init=&quot;true&quot;/&gt;
+</code></pre>
+<h1 id="8-注解开发">8. 注解开发</h1>
+<h2 id="81-注解定义bean">8.1 注解定义bean</h2>
+<p>类：</p>
+<pre><code class="language-java">public interface RoleService {
+    void add();
+}
+
+@Component(&quot;roleService&quot;)
+public class RoleServiceImpl implements RoleService {
+    public void add() {
+        System.out.println(&quot;RoleServiceImpl add...&quot;);
+    }
+}
+</code></pre>
+<p>配置：</p>
+<pre><code class="language-xml">&lt;!--
+    开启注解组件扫描
+    base-package：当前包及其子包的类
+--&gt;
+&lt;context:component-scan base-package=&quot;cn.fishland&quot;/&gt;
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        ApplicationContext context = new ClassPathXmlApplicationContext(&quot;application.xml&quot;);
+        RoleService bean = context.getBean(RoleService.class);
+        bean.add();
+    }
+}
+</code></pre>
+<blockquote>
+<p>@Component(&quot;roleService&quot;)注解表示当前类为bean，当spring扫描到类带此注解就会将类加载到容器中。@Component注解后面也可以什么都不加，这时<br>
+此类的名称就是类首字母小写的名称。<strong>@Component注解不可以放在接口类上</strong>，接口无法直接创建。</p>
+</blockquote>
+<p>@Component衍生注解：同@Component同样效果</p>
+<ol>
+<li>@Controller：表现层</li>
+<li>@Service：服务层</li>
+<li>@Repository：数据层</li>
+</ol>
+<h2 id="82-存注解开发">8.2 存注解开发</h2>
+<blockquote>
+<p>通过以上的示例，发现使用Spring还是挺麻烦，xml文件配置较为繁琐。Spring在3.0后就支持存注解开发了，去掉xml配置文件直接用类来进行配置。</p>
+</blockquote>
+<p>配置类：</p>
+<pre><code class="language-java">// 标识当前类为配置类，取代xml配置文件
+@Configuration
+// 开启包扫描
+@ComponentScan(&quot;cn.fishland&quot;)
+public class AppConfig {
+}
+</code></pre>
+<p>bean类：</p>
+<pre><code class="language-java">public interface RoleService {
+    void add();
+}
+
+@Component(&quot;roleService&quot;)
+public class RoleServiceImpl implements RoleService {
+    public void add() {
+        System.out.println(&quot;RoleServiceImpl add...&quot;);
+    }
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException {
+        // 使用AnnotationConfigApplicationContext加载配置类
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        RoleService bean = context.getBean(RoleService.class);
+        bean.add();
+    }
+}
+</code></pre>
+<blockquote>
+<p>从此处开始Spring的使用就简洁很多</p>
+</blockquote>
+<h2 id="83-注解下bean作用范围和生命周期">8.3 注解下bean作用范围和生命周期</h2>
+<p>bean类：</p>
+<pre><code class="language-java">@Component(&quot;roleService&quot;)
+//@Scope(&quot;prototype&quot;) 配置bean范围注解，表示多例
+@Scope(&quot;singleton&quot;) // 配置bean范围，表示单例，默认值，不配也行
+public class RoleServiceImpl implements RoleService {
+    public void add() {
+        System.out.println(&quot;RoleServiceImpl add...&quot;);
+    }
+
+    // init注解，表示当前方法为init方法
+    @PostConstruct
+    public void init() {
+        System.out.println(&quot;init ...&quot;);
+    }
+
+    // destroy注解，当前方法为destroy方法
+    @PreDestroy
+    public void destroy() {
+        System.out.println(&quot;destroy ...&quot;);
+    }
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException, InterruptedException {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        RoleService bean1 = context.getBean(RoleService.class);
+        System.out.println(bean1);
+        context.close();
+    }
+}
+</code></pre>
+<p>注解和xml配置关系：</p>
+<figure data-type="image" tabindex="2"><img src="../../../img/spring1.png" alt="" loading="lazy"></figure>
+<h2 id="84-注解依赖注入">8.4 注解依赖注入</h2>
+<h3 id="841-自动注入">8.4.1 自动注入</h3>
+<pre><code class="language-java">// 加入容器
+@Repository
+public class RoleDaoImpl implements RoleDao {
+    public void insert() {
+        System.out.println(&quot;RoleDaoImpl run...&quot;);
+    }
+}
+
+@Component
+public class RoleServiceImpl implements RoleService {
+
+    // 根据类型自动注入
+    @Autowired
+    private RoleDao roleDao;
+
+    public void add() {
+        roleDao.insert();
+        System.out.println(&quot;RoleServiceImpl add...&quot;);
+    }
+
+}
+
+// 测试
+public class Application {
+    public static void main(String[] args) throws Exception {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        RoleService bean1 = context.getBean(RoleService.class);
+        bean1.add();
+        context.close();
+    }
+}
+</code></pre>
+<h3 id="842-按照名称注入">8.4.2. 按照名称注入</h3>
+<blockquote>
+<p>当容器中出现多个同类型实例时就需要按照名称注入</p>
+</blockquote>
+<pre><code class="language-java">@Repository
+public class RoleDaoImpl implements RoleDao {
+    public void insert() {
+        System.out.println(&quot;RoleDaoImpl run...&quot;);
+    }
+}
+
+@Repository(&quot;roleDaoImpl1&quot;)
+public class RoleDaoImpl1 implements RoleDao {
+    public void insert() {
+        System.out.println(&quot;RoleDaoImpl1 run...&quot;);
+    }
+}
+
+@Service(&quot;roleService&quot;)
+public class RoleServiceImpl implements RoleService {
+
+    @Autowired
+    // 根据名称注入，不能单独使用必须配合Autowired使用
+    @Qualifier(&quot;roleDaoImpl1&quot;)
+    private RoleDao roleDao;
+
+    public void add() {
+        roleDao.insert();
+        System.out.println(&quot;RoleServiceImpl add...&quot;);
+    }
+}
+
+</code></pre>
+<p>总结：</p>
+<ol>
+<li>@Autowired根类型装配，出现多个相同类型时，就会使用属性变量名进行名称装配，再找不到就会抛异常。</li>
+<li>@Qualifier不能单独使用，需要配合@Autowried使用。</li>
+</ol>
+<h3 id="843-简单数据类型注入">8.4.3 简单数据类型注入</h3>
+<pre><code class="language-java">@Repository
+public class DataDaoImpl implements DataDao {
+
+    @Value(&quot;fish&quot;)
+    private String name;
+
+    public void shoeData() {
+        System.out.println(&quot;DataDaoImpl name=&quot; + name);
+    }
+}
+</code></pre>
+<p>@Value配合properties使用</p>
+<p>加载配置文件</p>
+<pre><code class="language-java">@Configuration
+// 加载配置文件
+@PropertySource(&quot;classpath:jdbc.properties&quot;)
+@ComponentScan(&quot;cn.fishland&quot;)
+public class AppConfig {
+}
+</code></pre>
+<p>使用配置文件中数据：</p>
+<pre><code class="language-java">@Repository
+public class DataDaoImpl implements DataDao {
+
+    @Value(&quot;fish&quot;)
+    private String name;
+
+    // 使用配置文件中数据
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    public void shoeData() {
+        System.out.println(&quot;DataDaoImpl name=&quot; + name);
+        System.out.println(&quot;DataDaoImpl url=&quot; + url);
+    }
+}
+</code></pre>
+<blockquote>
+<p>家在多个配置文件@PropertySource({&quot;jdbc1.properties&quot;,&quot;jdbc2.properties&quot;})</p>
+</blockquote>
+<h3 id="844-注入第三方bean">8.4.4 注入第三方bean</h3>
+<p>新建配置类：</p>
+<pre><code class="language-java">
+// @Configuration 这个注解可以加也可以在另一个配置中使用@Import配置，示例如下
+public class JdbcConfig {
+
+    @Value(&quot;${jdbc.driver}&quot;)
+    private String driver;
+
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    @Value(&quot;${jdbc.username}&quot;)
+    private String username;
+
+    @Value(&quot;${jdbc.password}&quot;)
+    private String password;
+
+    // 在方法上直接添加@Bean注解即可
+    @Bean
+    public DataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+}
+
+// 主配置类
+@Configuration
+@PropertySource(&quot;classpath:jdbc.properties&quot;)
+@ComponentScan(&quot;cn.fishland&quot;)
+// 添加另一个配置类
+@Import({JdbcConfig.class})
+public class AppConfig {
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws SQLException, InterruptedException {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        DataSource dataSource = context.getBean(DataSource.class);
+        System.out.println(dataSource.getConnection());
+        context.close();
+    }
+}
+</code></pre>
+<blockquote>
+<p>当@Bean配置的类需要注入其他bean怎么办了，Spring给出的解决办法是，直接设置形参就像，Spring会自动根据形参进行自动注入。示例如下：</p>
+</blockquote>
+<pre><code class="language-java">public class JdbcConfig {
+
+    @Value(&quot;${jdbc.driver}&quot;)
+    private String driver;
+
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    @Value(&quot;${jdbc.username}&quot;)
+    private String username;
+
+    @Value(&quot;${jdbc.password}&quot;)
+    private String password;
+
+    // 形参中直接设置即可，容器会自动根据类型进行注入，爽^_^
+    @Bean
+    public DataSource dataSource(DataDao dataDao) {
+        dataDao.shoeData();
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+}
+</code></pre>
+<h1 id="9-第三方框架整合">9. 第三方框架整合</h1>
+<h2 id="91-mybatis整合">9.1 Mybatis整合</h2>
+<p>添加依赖：</p>
+<pre><code class="language-xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+        &lt;version&gt;5.2.10.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;druid&lt;/artifactId&gt;
+        &lt;version&gt;1.2.15&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.30&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.6&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;!--Spring操作数据库需要该jar包--&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+        &lt;version&gt;5.2.10.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;!--Spring与Mybatis整合的jar包 这个jar包mybatis在前面，是Mybatis提供的 --&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+        &lt;version&gt;1.3.0&lt;/version&gt;
+    &lt;/dependency&gt;    
+&lt;/dependencies&gt;
+</code></pre>
+<p>创建数据源配置类：</p>
+<pre><code class="language-java">public class JdbcConfig {
+
+    @Value(&quot;${jdbc.driver}&quot;)
+    private String driver;
+
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    @Value(&quot;${jdbc.username}&quot;)
+    private String username;
+
+    @Value(&quot;${jdbc.password}&quot;)
+    private String password;
+
+    @Bean
+    public DataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+}
+</code></pre>
+<p>创建Mybatis配置类：</p>
+<pre><code class="language-java">public class MybatisConfig {
+
+    // 设置mybatis主要配置
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        // 配置别名
+        sqlSessionFactoryBean.setTypeAliasesPackage(&quot;cn.fishland.pojo&quot;);
+        // 配置数据源
+        sqlSessionFactoryBean.setDataSource(dataSource);
+        return sqlSessionFactoryBean;
+    }
+
+    // 配置mapper扫描包，mybatis需要加载的类
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer() {
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        // 需要加载的类
+        mapperScannerConfigurer.setBasePackage(&quot;cn.fishland.mapper&quot;);
+        return mapperScannerConfigurer;
+    }
+
+}
+</code></pre>
+<p>主配置类：</p>
+<pre><code class="language-java">// 表明为配置类
+@Configuration
+// 扫描组件包
+@ComponentScan(&quot;cn.fishland&quot;)
+// 导入配置文件
+@PropertySource(&quot;classpath:jdbc.properties&quot;)
+// 导入其他配置类
+@Import({JdbcConfig.class, MybatisConfig.class})
+public class AppConfig {
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">public class Application {
+    public static void main(String[] args) throws Exception {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        TagService bean = context.getBean(TagService.class);
+        bean.findAll();
+    }
+}
+</code></pre>
+<h2 id="92-整合junit">9.2 整合Junit</h2>
+<p>导入依赖：</p>
+<pre><code class="language-xml">&lt;!--需要注意版本问题--&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-test&lt;/artifactId&gt;
+        &lt;version&gt;5.2.10.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.12&lt;/version&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<p>创建测试类运行即可：</p>
+<pre><code class="language-java">@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {AppConfig.class})
+public class TagServiceTset {
+
+    @Autowired
+    private TagService tagService;
+
+    @Test
+    public void tagServiceTest() {
+        tagService.findAll();
+    }
+}
+</code></pre>
+<h1 id="10-注解总结">10. 注解总结</h1>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+<th>对比XML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Component</td>
+<td>标记当前类为bean，组件类，会被容器加载，衍生注解@Service，@Controller，@Repository</td>
+<td>bean标签</td>
+</tr>
+<tr>
+<td>@Configuration</td>
+<td>当前类为配置类，代替application.xml配置文件</td>
+<td>beans标签</td>
+</tr>
+<tr>
+<td>@ComponentScan(&quot;cn.fishland&quot;)</td>
+<td>放在配置类上，设置组件扫描包</td>
+<td><code>&lt;context:component-scan base-package=&quot;cn.fishland&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td>@Scope(&quot;prototype&quot;)</td>
+<td>配置bean的范围，值为prototype何singleton</td>
+<td>bean标签scope属性</td>
+</tr>
+<tr>
+<td>@PostConstruct</td>
+<td>配置加载类的init方法</td>
+<td>bean标签init-method属性</td>
+</tr>
+<tr>
+<td>@PreDestroy</td>
+<td>配置bean加载的destroy方法</td>
+<td>bean标签destroy-method属性</td>
+</tr>
+<tr>
+<td>@Autowired</td>
+<td>根据类型自动注入类，同类型多个采用属性名查找，未找到抛异常</td>
+<td>bean标签autowired属性</td>
+</tr>
+<tr>
+<td>@Qualifier(&quot;roleDaoImpl1&quot;)</td>
+<td>根据名称注入bean，需要同@Autowired注解一同使用</td>
+<td>bean标签autowired属性的byName值</td>
+</tr>
+<tr>
+<td>@Value(&quot;xx&quot;)</td>
+<td>注入普通值到属性中，也可以引用外部配置值，例如：@Value(&quot;${jdbc.url}&quot;)</td>
+<td><code>&lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:33060/BookManager&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td>@PropertySource(&quot;classpath:jdbc.properties&quot;)</td>
+<td>加载外部properties文件，classpath表示项目根目录开始</td>
+<td><code>&lt;context:property-placeholder location=&quot;jdbc.properties&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td>@Bean</td>
+<td>使用在方法上，会将返回值加入容器中，名称为方法名</td>
+<td>bean标签</td>
+</tr>
+<tr>
+<td>@Import({JdbcConfig.class})</td>
+<td>用在配置类上，加载其他配置类</td>
+<td></td>
+</tr>
+<tr>
+<td>@RunWith(SpringJUnit4ClassRunner.class)</td>
+<td>测试类注解</td>
+<td></td>
+</tr>
+<tr>
+<td>@ContextConfiguration(classes = {AppConfig.class})</td>
+<td>测试类加载的配置类</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://stackyu.github.io/post/mybatis/" class="post-title gt-a-link">
+                    Mybatis基础教程
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">StackYu的个人博客</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/stackyu" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        
+    </div>
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://stackyu.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
